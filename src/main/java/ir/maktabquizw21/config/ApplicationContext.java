@@ -1,15 +1,10 @@
 package ir.maktabquizw21.config;
 
 import ir.maktabquizw21.domains.Customer;
+import ir.maktabquizw21.domains.Fruit;
 import ir.maktabquizw21.domains.Manager;
-import ir.maktabquizw21.repository.CustomerRepository;
-import ir.maktabquizw21.repository.CustomerRepositoryImpl;
-import ir.maktabquizw21.repository.ManagerRepository;
-import ir.maktabquizw21.repository.ManagerRepositoryImpl;
-import ir.maktabquizw21.service.CustomerService;
-import ir.maktabquizw21.service.CustomerServiceImpl;
-import ir.maktabquizw21.service.ManagerService;
-import ir.maktabquizw21.service.ManagerServiceImpl;
+import ir.maktabquizw21.repository.*;
+import ir.maktabquizw21.service.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -66,11 +61,21 @@ public class ApplicationContext {
         return customerRepository;
     }
 
+    private FruitRepository fruitRepository;
+
+    public FruitRepository getFruitRepository() {
+        if (Objects.isNull(fruitRepository)) {
+            fruitRepository = new FruitRepositoryImpl(getEntityManager());
+        }
+        return fruitRepository;
+    }
+
+
     private ManagerService managerService;
 
     public ManagerService getManagerService() {
         if (Objects.isNull(managerService)) {
-            managerService = new ManagerServiceImpl(getManagerRepository());
+            managerService = new ManagerServiceImpl(getManagerRepository() , getFruitService());
         }
         return managerService;
     }
@@ -82,5 +87,14 @@ public class ApplicationContext {
             customerService = new CustomerServiceImpl(getCustomerRepository());
         }
         return customerService;
+    }
+
+    private FruitService fruitService;
+
+    public FruitService getFruitService() {
+        if (Objects.isNull(fruitService)) {
+            fruitService = new FruitServiceImpl(getFruitRepository());
+        }
+        return fruitService;
     }
 }
