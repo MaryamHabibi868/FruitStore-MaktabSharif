@@ -5,4 +5,5 @@ import ir.maktabquizw21.service.base.BaseService;
 
 public interface FruitService
         extends BaseService<Fruit, Long> {
+    Fruit findFruitByName(String fruitName);
 }

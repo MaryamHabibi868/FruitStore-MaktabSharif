@@ -11,4 +11,9 @@ public class FruitServiceImpl
     public FruitServiceImpl(FruitRepository repository) {
         super(repository);
     }
+
+    @Override
+    public Fruit findFruitByName(String fruitName) {
+        return repository.findFruitByName(fruitName);
+    }
 }
