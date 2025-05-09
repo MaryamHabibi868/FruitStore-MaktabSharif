@@ -75,7 +75,8 @@ public class ApplicationContext {
 
     public ManagerService getManagerService() {
         if (Objects.isNull(managerService)) {
-            managerService = new ManagerServiceImpl(getManagerRepository() , getFruitService());
+            managerService = new ManagerServiceImpl(getManagerRepository(),
+                    getFruitService(), getCustomerService());
         }
         return managerService;
     }

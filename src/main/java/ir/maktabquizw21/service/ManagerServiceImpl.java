@@ -1,6 +1,7 @@
 package ir.maktabquizw21.service;
 
 import ir.maktabquizw21.CustomExeption.CustomException;
+import ir.maktabquizw21.domains.Customer;
 import ir.maktabquizw21.domains.Fruit;
 import ir.maktabquizw21.domains.Manager;
 import ir.maktabquizw21.repository.ManagerRepository;
@@ -13,12 +14,17 @@ public class ManagerServiceImpl extends
         BaseServiceImpl<Manager, Long, ManagerRepository>
         implements ManagerService {
 
-    public ManagerServiceImpl(ManagerRepository repository, FruitService fruitService) {
+    public ManagerServiceImpl(ManagerRepository repository,
+                              FruitService fruitService,
+                              CustomerService customerService) {
         super(repository);
         this.fruitService = fruitService;
+        this.customerService = customerService;
     }
 
     private final FruitService fruitService;
+
+    private final CustomerService customerService;
 
     public void registerManager(String name, String username, String password) {
         if (repository.findByUsername(username).isPresent()) {
@@ -70,6 +76,38 @@ public class ManagerServiceImpl extends
             fruitService.deleteById(id);
         } else {
             throw new CustomException("Fruit not found");
+        }
+    }
+
+    public void addCustomer(String name, String userName,
+                            String password, String phoneNumber,
+                            String address) {
+        if (repository.findByUsername(userName).isPresent()) {
+            throw new CustomException("Customer already exists");
+        }
+        Customer customer = new Customer();
+        customer.setName(name);
+        customer.setUserName(userName);
+        customer.setPassword(password);
+        customer.setPhoneNumber(phoneNumber);
+        customer.setAddress(address);
+        customerService.save(customer);
+    }
+
+    public List<Customer> printAllCustomers() {
+        return customerService.findAll();
+    }
+
+    public void updateCustomer(Customer customer) {
+        Customer customer1 = new Customer();
+        customerService.save(customer1);
+    }
+
+    public void deleteCustomer(Long id) {
+        if (customerService.existsById(id)) {
+            customerService.deleteById(id);
+        } else {
+            throw new CustomException("Customer not found");
         }
     }
 }
