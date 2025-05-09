@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class BaseUserServiceImpl
+public class BaseServiceImpl
         <T extends BaseEntity<ID>,
         ID extends Serializable,
         R extends CrudRepository<T, ID>>
-        implements BaseUserService<T, ID> {
+        implements BaseService<T, ID> {
 
     protected final R repository;
 

@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class Fruit extends BaseEntity<Long> {
 
-    @NotBlank
+    @NotBlank (message = "Name of fruit should be entered")
     private String name;
 
     private String description;

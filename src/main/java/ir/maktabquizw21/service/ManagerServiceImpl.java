@@ -3,10 +3,10 @@ package ir.maktabquizw21.service;
 import ir.maktabquizw21.CustomExeption.CustomException;
 import ir.maktabquizw21.domains.Manager;
 import ir.maktabquizw21.repository.ManagerRepository;
-import ir.maktabquizw21.service.base.BaseUserServiceImpl;
+import ir.maktabquizw21.service.base.BaseServiceImpl;
 
 public class ManagerServiceImpl extends
-        BaseUserServiceImpl<Manager, Long, ManagerRepository>
+        BaseServiceImpl<Manager, Long, ManagerRepository>
         implements ManagerService {
 
     public ManagerServiceImpl(ManagerRepository repository) {

@@ -20,10 +20,10 @@ import java.util.Set;
 @PrimaryKeyJoinColumn(name = "customer_id")
 public class Customer extends User {
 
-    @NotBlank
+    @NotBlank (message = "Phone number should be entered")
     private String phoneNumber;
 
-    @NotBlank
+    @NotBlank (message = "Address should be entered")
     private String address;
 
     @OneToMany(mappedBy = "customer")

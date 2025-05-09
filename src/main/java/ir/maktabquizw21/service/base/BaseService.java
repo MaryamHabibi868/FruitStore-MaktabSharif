@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public interface BaseUserService<T extends BaseEntity<ID>,
+public interface BaseService<T extends BaseEntity<ID>,
         ID extends Serializable>{
 
     T save(T entity);

@@ -20,12 +20,12 @@ import lombok.ToString;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User extends BaseEntity<Long> {
 
-    @NotBlank
+    @NotBlank (message = "Name of user should be entered")
     private String name;
 
-    @NotBlank
+    @NotBlank (message = "UserName should be entered")
     private String userName;
 
-    @NotBlank
+    @NotBlank (message = "Password should be entered")
     private String password;
 }

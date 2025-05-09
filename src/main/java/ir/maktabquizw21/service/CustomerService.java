@@ -1,8 +1,8 @@
 package ir.maktabquizw21.service;
 
 import ir.maktabquizw21.domains.Customer;
-import ir.maktabquizw21.service.base.BaseUserService;
+import ir.maktabquizw21.service.base.BaseService;
 
 public interface CustomerService
-        extends BaseUserService<Customer, Long> {
+        extends BaseService<Customer, Long> {
 }
