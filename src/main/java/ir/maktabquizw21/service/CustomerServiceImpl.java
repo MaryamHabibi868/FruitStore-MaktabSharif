@@ -6,8 +6,6 @@ import ir.maktabquizw21.repository.CustomerRepository;
 import ir.maktabquizw21.service.base.BaseServiceImpl;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Set;
 
 public class CustomerServiceImpl extends
         BaseServiceImpl<Customer, Long, CustomerRepository>
@@ -42,9 +40,11 @@ public class CustomerServiceImpl extends
     }
 
     public Customer loginCustomer(String username, String password) {
+        repository.beginTransaction();
         if (repository.findByUsername(username).isPresent()) {
             Customer customer = repository.findByUsername(username).get();
             if (customer.getPassword().equals(password)) {
+                repository.commitTransaction();
                 return customer;
             } else {
                 throw new CustomException("Wrong password");
@@ -54,8 +54,8 @@ public class CustomerServiceImpl extends
         }
     }
 
-    public void proofOrder(String fruitName , Double weight) {
-
+    public void proofOrder(String fruitName, Double weight) {
+        repository.beginTransaction();
         Fruit findFruit = fruitService.findFruitByName(fruitName);
         if (findFruit.getQuantity() < weight) {
             throw new CustomException("Not enough fruit");
@@ -73,5 +73,6 @@ public class CustomerServiceImpl extends
 
         findFruit.setQuantity(findFruit.getQuantity() - weight);
         fruitService.save(findFruit);
+        repository.commitTransaction();
     }
 }

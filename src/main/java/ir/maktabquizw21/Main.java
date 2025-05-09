@@ -1,17 +1,29 @@
 package ir.maktabquizw21;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import ir.maktabquizw21.config.ApplicationContext;
+import ir.maktabquizw21.service.FruitService;
+import ir.maktabquizw21.thread.CustomerThread;
+import ir.maktabquizw21.thread.ManagerThread;
+import jakarta.persistence.EntityManager;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+
+        EntityManager entityManager = ApplicationContext.getInstance().getEntityManager();
+
+
+        FruitService fruitService = ApplicationContext.getInstance().getFruitService();
+
+        ManagerThread manager = new ManagerThread(fruitService);
+        CustomerThread customer1 = new CustomerThread(fruitService);
+        CustomerThread customer2 = new CustomerThread(fruitService);
+
+        manager.start();
+        customer1.start();
+        customer2.start();
+        manager.join();
+        customer1.join();
+        customer2.join();
+
     }
 }

@@ -14,6 +14,9 @@ public class FruitServiceImpl
 
     @Override
     public Fruit findFruitByName(String fruitName) {
-        return repository.findFruitByName(fruitName);
+        repository.beginTransaction();
+         repository.findFruitByName(fruitName);
+         repository.commitTransaction();
+         return repository.findFruitByName(fruitName);
     }
 }
