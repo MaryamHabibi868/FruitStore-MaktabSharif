@@ -27,5 +27,4 @@ public interface BaseUserService<T extends BaseEntity<ID>,
     void deleteAllById(Iterable<ID> ids);
 
     boolean existsById(ID id);
-
 }

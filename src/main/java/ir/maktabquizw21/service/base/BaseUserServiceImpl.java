@@ -1,7 +1,6 @@
 package ir.maktabquizw21.service.base;
 
 import ir.maktabquizw21.domains.base.BaseEntity;
-import ir.maktabquizw21.repository.base.BaseUserRepositoryImpl;
 import ir.maktabquizw21.repository.base.CrudRepository;
 import lombok.RequiredArgsConstructor;
 
