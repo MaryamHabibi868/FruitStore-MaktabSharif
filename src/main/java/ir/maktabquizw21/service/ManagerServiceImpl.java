@@ -1,20 +1,27 @@
 package ir.maktabquizw21.service;
 
 import ir.maktabquizw21.CustomExeption.CustomException;
+import ir.maktabquizw21.domains.Fruit;
 import ir.maktabquizw21.domains.Manager;
 import ir.maktabquizw21.repository.ManagerRepository;
 import ir.maktabquizw21.service.base.BaseServiceImpl;
+
+import java.util.List;
+
 
 public class ManagerServiceImpl extends
         BaseServiceImpl<Manager, Long, ManagerRepository>
         implements ManagerService {
 
-    public ManagerServiceImpl(ManagerRepository repository) {
+    public ManagerServiceImpl(ManagerRepository repository, FruitService fruitService) {
         super(repository);
+        this.fruitService = fruitService;
     }
 
+    private final FruitService fruitService;
+
     public void registerManager(String name, String username, String password) {
-        if ( repository.findByUsername(username).isPresent()){
+        if (repository.findByUsername(username).isPresent()) {
             throw new CustomException("Manager already exists");
         }
         repository.beginTransaction();
@@ -27,17 +34,38 @@ public class ManagerServiceImpl extends
     }
 
     public Manager loginManager(String username, String password) {
-        if ( repository.findByUsername(username).isPresent()){
+        if (repository.findByUsername(username).isPresent()) {
             Manager manager = repository.findByUsername(username).get();
             if (manager.getPassword().equals(password)) {
                 return manager;
-            }
-            else {
+            } else {
                 throw new CustomException("Wrong password");
             }
-        }
-        else {
+        } else {
             throw new CustomException("No user found , you need to register first");
         }
+    }
+
+    public void addFruit(String fruitName, String description,
+                         Double quantity, Double pricePerKg) {
+        Fruit fruit = new Fruit();
+        fruit.setName(fruitName);
+        fruit.setDescription(description);
+        fruit.setQuantity(quantity);
+        fruit.setPricePerKg(pricePerKg);
+        fruitService.save(fruit);
+    }
+
+    public List<Fruit> printAllFruits() {
+        return fruitService.findAll();
+    }
+
+    public void updateFruit(Fruit fruit) {
+        Fruit fruit1 = new Fruit();
+        fruitService.save(fruit1);
+    }
+
+    public void deleteFruit(Long id) {
+        fruitService.deleteById(id);
     }
 }
