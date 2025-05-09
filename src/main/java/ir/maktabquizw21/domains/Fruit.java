@@ -2,6 +2,10 @@ package ir.maktabquizw21.domains;
 
 import ir.maktabquizw21.domains.base.BaseEntity;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,8 +18,18 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class Fruit extends BaseEntity<Long> {
 
+    @NotBlank
     private String name;
+
     private String description;
+
+    @NotBlank
+    @Digits(integer = 1000, fraction = 2)
+    @Min(0)
+    @Max(100_000)
     private Double quantity;
+
+    @NotBlank
+    @Digits(integer = 1000, fraction = 2)
     private Double pricePerKg;
 }

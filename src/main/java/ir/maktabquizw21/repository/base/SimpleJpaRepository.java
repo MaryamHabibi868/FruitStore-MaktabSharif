@@ -11,7 +11,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class SimpleJpaRepository <T extends BaseEntity<ID>, ID>
+public abstract class SimpleJpaRepository
+        <T extends BaseEntity<ID>, ID>
         implements CrudRepository<T, ID>{
 
     protected final EntityManager entityManager;
