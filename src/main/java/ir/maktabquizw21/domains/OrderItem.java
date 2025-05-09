@@ -2,6 +2,7 @@ package ir.maktabquizw21.domains;
 
 import ir.maktabquizw21.domains.base.BaseEntity;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,8 @@ public class OrderItem extends BaseEntity<Long> {
     private Fruit fruit;
 
     private Double weight;
+
+    @ManyToOne
+    private Order order;
 
 }

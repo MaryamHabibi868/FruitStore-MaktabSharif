@@ -27,7 +27,7 @@ public class Order extends BaseEntity<Long> {
     @ManyToOne
     private Customer customer;
 
-    @OneToMany
+    @OneToMany (mappedBy = "order")
     private Set<OrderItem> orderItems;
 
 

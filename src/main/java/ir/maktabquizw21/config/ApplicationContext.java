@@ -104,7 +104,8 @@ public class ApplicationContext {
 
     public CustomerService getCustomerService() {
         if (Objects.isNull(customerService)) {
-            customerService = new CustomerServiceImpl(getCustomerRepository());
+            customerService = new CustomerServiceImpl(getCustomerRepository(),
+                    getOrderItemService(), getFruitService());
         }
         return customerService;
     }
