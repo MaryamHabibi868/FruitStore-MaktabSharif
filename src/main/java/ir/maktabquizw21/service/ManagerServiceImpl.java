@@ -66,6 +66,10 @@ public class ManagerServiceImpl extends
     }
 
     public void deleteFruit(Long id) {
-        fruitService.deleteById(id);
+        if (fruitService.existsById(id)) {
+            fruitService.deleteById(id);
+        } else {
+            throw new CustomException("Fruit not found");
+        }
     }
 }
