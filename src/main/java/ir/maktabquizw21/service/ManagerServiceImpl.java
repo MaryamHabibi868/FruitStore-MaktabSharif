@@ -7,6 +7,7 @@ import ir.maktabquizw21.service.base.BaseServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 public class ManagerServiceImpl extends
@@ -125,11 +126,33 @@ public class ManagerServiceImpl extends
     public List<Order> printAllOrderItemsByCustomerId(Long customerId) {
         if (customerService.existsById(customerId)) {
             List<Order> ordersByCustomerId = new ArrayList<>();
-           return ordersByCustomerId.stream()
+            return ordersByCustomerId.stream()
                     .filter(order -> order.getCustomer().getId()
                             .equals(customerId)).toList();
         } else {
             throw new CustomException("Customer not found");
         }
+    }
+
+    public List<Order> printAllOrders() {
+        return orderService.findAll();
+    }
+
+    public void cancelOrder(Long id) {
+        Order order = orderService.findById(id).
+                orElseThrow(() -> new RuntimeException("Order not found"));
+        if (order.getStatus() != OrderStatus.CANCELLED) {
+            order.setStatus(OrderStatus.CANCELLED);
+        }
+        orderService.save(order);
+    }
+
+    public void sendOrder(Long id) {
+        Order order = orderService.findById(id).
+                orElseThrow(() -> new RuntimeException("Order not found"));
+        if (order.getStatus() != OrderStatus.PROCESSED) {
+            order.setStatus(OrderStatus.PROCESSED);
+        }
+        orderService.save(order);
     }
 }
