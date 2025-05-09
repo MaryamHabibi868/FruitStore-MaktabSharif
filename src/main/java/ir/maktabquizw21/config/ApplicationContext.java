@@ -70,13 +70,32 @@ public class ApplicationContext {
         return fruitRepository;
     }
 
+    private OrderItemRepository orderItemRepository;
+
+    public OrderItemRepository getOrderItemRepository() {
+        if (Objects.isNull(orderItemRepository)) {
+            orderItemRepository = new OrderItemRepositoryImpl(getEntityManager());
+        }
+        return orderItemRepository;
+    }
+
+    private OrderRepository orderRepository;
+
+    public OrderRepository getOrderRepository() {
+        if (Objects.isNull(orderRepository)) {
+            orderRepository = new OrderRepositoryImpl(getEntityManager());
+        }
+        return orderRepository;
+    }
+
 
     private ManagerService managerService;
 
     public ManagerService getManagerService() {
         if (Objects.isNull(managerService)) {
             managerService = new ManagerServiceImpl(getManagerRepository(),
-                    getFruitService(), getCustomerService());
+                    getFruitService(), getCustomerService(),
+                    getOrderItemService(), getOrderService());
         }
         return managerService;
     }
@@ -97,5 +116,23 @@ public class ApplicationContext {
             fruitService = new FruitServiceImpl(getFruitRepository());
         }
         return fruitService;
+    }
+
+    private OrderItemService orderItemService;
+
+    public OrderItemService getOrderItemService() {
+        if (Objects.isNull(orderItemService)) {
+            orderItemService = new OrderItemServiceImpl(getOrderItemRepository());
+        }
+        return orderItemService;
+    }
+
+    private OrderService orderService;
+
+    public OrderService getOrderService() {
+        if (Objects.isNull(orderService)) {
+            orderService = new OrderServiceImpl(getOrderRepository());
+        }
+        return orderService;
     }
 }

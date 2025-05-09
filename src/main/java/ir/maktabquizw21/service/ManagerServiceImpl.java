@@ -1,12 +1,11 @@
 package ir.maktabquizw21.service;
 
 import ir.maktabquizw21.CustomExeption.CustomException;
-import ir.maktabquizw21.domains.Customer;
-import ir.maktabquizw21.domains.Fruit;
-import ir.maktabquizw21.domains.Manager;
+import ir.maktabquizw21.domains.*;
 import ir.maktabquizw21.repository.ManagerRepository;
 import ir.maktabquizw21.service.base.BaseServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -16,15 +15,23 @@ public class ManagerServiceImpl extends
 
     public ManagerServiceImpl(ManagerRepository repository,
                               FruitService fruitService,
-                              CustomerService customerService) {
+                              CustomerService customerService,
+                              OrderItemService orderItemService,
+                              OrderService orderService) {
         super(repository);
         this.fruitService = fruitService;
         this.customerService = customerService;
+        this.orderItemService = orderItemService;
+        this.orderService = orderService;
     }
 
     private final FruitService fruitService;
 
     private final CustomerService customerService;
+
+    private final OrderItemService orderItemService;
+
+    private final OrderService orderService;
 
     public void registerManager(String name, String username, String password) {
         if (repository.findByUsername(username).isPresent()) {
@@ -106,6 +113,21 @@ public class ManagerServiceImpl extends
     public void deleteCustomer(Long id) {
         if (customerService.existsById(id)) {
             customerService.deleteById(id);
+        } else {
+            throw new CustomException("Customer not found");
+        }
+    }
+
+    public List<OrderItem> printAllOrderItems() {
+        return orderItemService.findAll();
+    }
+
+    public List<Order> printAllOrderItemsByCustomerId(Long customerId) {
+        if (customerService.existsById(customerId)) {
+            List<Order> ordersByCustomerId = new ArrayList<>();
+           return ordersByCustomerId.stream()
+                    .filter(order -> order.getCustomer().getId()
+                            .equals(customerId)).toList();
         } else {
             throw new CustomException("Customer not found");
         }
